@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Clean Report</title>
+    <style>
+        /* Pengaturan Dasar */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            /* Latar belakang biru muda seperti pada gambar */
+            background: linear-gradient(135deg, #7bb8f1 0%, #b2d6ff 100%); 
+            min-height: 100vh;
+            display: flex;
+            align-items: center; /* Pemusatan Vertikal */
+            justify-content: center; /* Pemusatan Horizontal */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 400px; /* Batasan lebar form */
+            padding: 40px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Tanda Panah (Absolute di Kiri Atas) */
+        .back-button-fixed {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: none;
+            border: none;
+            color: #1a3a52; /* Hitam Gelap */
+            /* Tambahkan sedikit bayangan putih agar kontras dengan background biru */
+            text-shadow: 0 0 4px rgba(255, 255, 255, 0.7); 
+            font-size: 32px;
+            cursor: pointer;
+            padding: 0;
+            z-index: 20;
+            transition: color 0.2s;
+        }
+
+        .back-button-fixed:hover {
+            color: #0d1e2e;
+        }
+        
+        /* Hilangkan Logo A yang tersembunyi */
+        .header, .logo {
+            display: none;
+        }
+
+        /* Bagian Selamat Datang */
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .welcome-section h1 {
+            color: #1a3a52; /* Warna teks gelap */
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .welcome-section p {
+            color: #3b608a; /* Sub-teks sedikit lebih terang */
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* Ikon Profil */
+        .profile-icon {
+            width: 90px; 
+            height: 90px;
+            /* Warna ikon seperti pada gambar */
+            background: linear-gradient(135deg, #6a1b9a 0%, #9c27b0 100%); 
+            border-radius: 50%;
+            margin: 0 auto 50px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Form Input */
+        form {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left; /* Penting agar label rata kiri */
+        }
+        
+        /* Gaya untuk Label */
+        .form-label {
+            display: block;
+            color: #1a3a52;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px; 
+            border: none; /* Border dihilangkan */
+            border-radius: 8px; 
+            font-size: 15px;
+            background: rgba(255, 255, 255, 1); /* Warna input putih solid */
+            color: #333;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .form-input::placeholder {
+             color: #999;
+             font-size: 14px;
+        }
+
+        .form-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(91, 159, 216, 0.5);
+        }
+
+        /* Tombol dan Forgot Password */
+        .form-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 30px; 
+            margin-bottom: 20px;
+            padding: 0 5px; 
+        }
+
+        .login-button {
+            /* Disesuaikan agar lebih padat */
+            background: #1a3a52; 
+            color: white;
+            border: none;
+            padding: 10px 25px; 
+            border-radius: 6px; 
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .login-button:hover {
+            background: #0d1e2e;
+            transform: translateY(-1px);
+        }
+
+        .forgot-password {
+            color: #1a3a52;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+        
+        /* Media Query untuk Mobile */
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 25px;
+            }
+
+            .welcome-section h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Tanda Panah di posisi absolut di kiri atas browser -->
+    <button class="back-button-fixed" aria-label="Kembali">←</button>
+
+    <div class="container">
+        <!-- Header Dihilangkan -->
+        <div class="header"></div>
+
+        <div class="welcome-section">
+            <h1>Selamat datang!</h1>
+            <p>Silakan masuk untuk melanjutkan.</p>
+        </div>
+
+        <!-- Ikon Profil -->
+        <div class="profile-icon">👤</div>
+
+        <form>
+            <div class="form-group">
+                <!-- Label Email dipisahkan -->
+                <label for="email" class="form-label">Email</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    class="form-input"
+                    placeholder="masukkan alamat email"
+                >
+            </div>
+
+            <div class="form-group">
+                <!-- Label Username dipisahkan -->
+                <label for="username" class="form-label">Username</label>
+                <input 
+                    type="text" 
+                    id="username" 
+                    class="form-input"
+                    placeholder="masukkan username"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <!-- Label Password -->
+                <label for="password" class="form-label">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    class="form-input"
+                    placeholder="masukkan password"
+                    required
+                >
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="login-button">masuk</button>
+                <a href="#" class="forgot-password">Forgot Password?</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

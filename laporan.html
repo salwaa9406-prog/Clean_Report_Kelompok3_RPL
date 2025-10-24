@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pélaporan Air - Laporan Air</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            min-height: 100vh;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- Header / Navbar --- */
+        header {
+            background-color: #2c5aa0;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            color: #fff;
+        }
+
+        .logo {
+            width: auto;
+            height: auto;
+            font-size: 18px;
+            font-weight: 800;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: transparent;
+            border-radius: 0;
+        }
+
+        /* Menyatukan gaya .header-buttons ke .nav-buttons (digunakan di HTML) */
+        .nav-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Menyatukan gaya .btn-header ke .nav-btn (digunakan di HTML) */
+        .nav-btn {
+            background-color: #fff;
+            border: none;
+            padding: 6px 14px;
+            /* PERUBAHAN: Menjadikan bentuk oval/pill-shape */
+            border-radius: 50px; 
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            color: #2c5aa0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background-color: #e8f0f8;
+            transform: translateY(-1px);
+        }
+
+        .profile-icon {
+            width: 30px;
+            height: 30px;
+            background-color: #fff;
+            /* 50% membuat bentuk lingkaran */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #2c5aa0;
+            font-weight: bold;
+        }
+
+        /* Main Container */
+        .container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px 20px;
+        }
+
+        .form-wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-title {
+            text-align: center;
+            color: #fff;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Form Sections */
+        .form-section {
+            background-color: #7eb3e8;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .section-icon {
+            width: 24px;
+            height: 24px;
+            background-color: #fff;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #7eb3e8;
+            font-weight: bold;
+        }
+
+        .section-title {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        /* Form Fields */
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: inherit;
+            background-color: #fff;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+            background-color: #f9f9f9;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* Two Column Layout */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .form-row .form-group {
+            margin-bottom: 0;
+        }
+
+        /* Special Sections */
+        .section-detail {
+            background-color: #fff;
+            padding: 16px;
+            border-radius: 6px;
+            margin-bottom: 14px;
+        }
+
+        .section-detail h4 {
+            color: #2c5aa0;
+            font-size: 14px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .section-detail p {
+            color: #666;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        /* Detail Alamat Section */
+        .detail-alamat-box {
+            background-color: #fff;
+            padding: 14px;
+            border-radius: 6px;
+            margin-bottom: 14px;
+            border-left: 4px solid #2c5aa0;
+        }
+
+        .detail-alamat-box h5 {
+            color: #2c5aa0;
+            font-size: 13px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .detail-alamat-box p {
+            color: #666;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        /* Lingkungan Budi Visual */
+        .visual-box {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 6px;
+            text-align: center;
+            margin-bottom: 14px;
+        }
+
+        .visual-box h5 {
+            color: #2c5aa0;
+            font-size: 13px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .visual-placeholder {
+            width: 100%;
+            height: 120px;
+            background-color: #f0f0f0;
+            border: 2px dashed #ccc;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 12px;
+        }
+
+        /* Info Box */
+        .info-box {
+            background-color: #fff;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 14px;
+            border-left: 4px solid #ffc107;
+        }
+
+        .info-box p {
+            color: #666;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        /* Submit Button */
+        .button-container {
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .btn-submit {
+            background-color: #2c5aa0;
+            color: #fff;
+            border: none;
+            padding: 14px 40px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(44, 90, 160, 0.3);
+        }
+
+        .btn-submit:hover {
+            background-color: #1e3f5a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(44, 90, 160, 0.4);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .form-title {
+                font-size: 24px;
+            }
+
+            .container {
+                padding: 20px 15px;
+            }
+        }
+
+        /* Scrollbar Styling */
+        .container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+        }
+
+        .container::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">💧 Clean Report</div>
+        <div class="nav-buttons">
+            <a href="/index2.html">
+                <button class="nav-btn">Beranda</button>
+            </a>
+            <button class="nav-btn">Beranda</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="form-wrapper">
+            <h1 class="form-title">Pelaporan Air</h1>
+
+            <!-- Section 1: Identitas Pelapor -->
+            <div class="form-section">
+                <div class="section-header">
+                    <div class="section-icon">👤</div>
+                    <div class="section-title">Identitas Pelapor</div>
+                </div>
+                <div class="form-group">
+                    <label>Nama Lengkap</label>
+                    <input type="text" placeholder="Masukkan nama lengkap Anda">
+                </div>
+                <div class="form-group">
+                    <label>Nomor Telepon</label>
+                    <input type="tel" placeholder="Masukkan nomor telepon">
+                </div>
+            </div>
+
+            <!-- Section 2: Wilayah Administrasi -->
+            <div class="form-section">
+                <div class="section-header">
+                    <div class="section-icon">📍</div>
+                    <div class="section-title">Wilayah Administrasi</div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Provinsi</label>
+                        <select>
+                            <option>Pilih Provinsi</option>
+                            <option>Sulawesi Tenggara</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Kota</label>
+                        <select>
+                            <option>Pilih Kabupaten/Kota</option>
+                            <option>Kota Kendari</option>
+                        </select>
+
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Kecamatan</label>
+                        <select>
+                            <option>Pilih Kecamatan di Kota Kendari</option>
+                            <option>Kecamatan Abeli</option>
+                            <option>Kecamatan Baruga</option>
+                            <option>Kecamatan Kambu</option>
+                            <option>Kecamatan Kendari</option>
+                            <option>Kecamatan Mandonga</option>
+                            <option>Kecamatan Poasia</option>
+                            <option>Kecamatan Puuwatu</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Kelurahan</label>
+                        <select>
+                            <option>Pilih Kelurahan</option>
+                            <option value="Abeli">Abeli</option>
+                            <option value="Anggalomelai">Anggalomelai</option>
+                            <option value="Benua Nirae">Benua Nirae</option>
+                            <option value="Bungkutoko">Bungkutoko</option>
+                            <option value="Lapulu">Lapulu</option>
+                            <option value="Puday">Puday</option>
+                            <option value="Poasia">Poasia</option>
+                            <option value="Baruga">Baruga</option>
+                            <option value="Lepo-Lepo">Lepo-Lepo</option>
+                            <option value="Watubangga">Watubangga</option>
+                            <option value="Wundudopi">Wundudopi</option>
+                            <option value="Anaiwoi">Anaiwoi</option>
+                            <option value="Bende">Bende</option>
+                            <option value="Kadia">Kadia</option>
+                            <option value="Pondambea">Pondambea</option>
+                            <option value="Wowawanggu">Wowawanggu</option>
+                            <option value="Kambu">Kambu</option>
+                            <option value="Lalolara">Lalolara</option>
+                            <option value="Mokoau">Mokoau</option>
+                            <option value="Padaleu">Padaleu</option>
+                            <option value="Gunung Jati">Gunung Jati</option>
+                            <option value="Jati Mekar">Jati Mekar</option>
+                            <option value="Kampung Salo">Kampung Salo</option>
+                            <option value="Kandai">Kandai</option>
+                            <option value="Kassilampe">Kassilampe</option>
+                            <option value="Kendari Caddi">Kendari Caddi</option>
+                            <option value="Kemaraya">Kemaraya</option>
+                            <option value="Watu-Watu">Watu-Watu</option>
+                            <option value="Tipulu">Tipulu</option>
+                            <option value="Benu-Benua">Benu-Benua</option>
+                            <option value="Punggaloba">Punggaloba</option>
+                            <option value="Sodohoa">Sodohoa</option>
+                            <option value="Dapu-Dapura">Dapu-Dapura</option>
+                            <option value="Lahundape">Lahundape</option>
+                            <option value="Sanua">Sanua</option>
+                            <option value="Alolama">Alolama</option>
+                            <option value="Anggilowu">Anggilowu</option>
+                            <option value="Korumba">Korumba</option>
+                            <option value="Mandonga">Mandonga</option>
+                            <option value="Labibia">Labibia</option>
+                            <option value="Wawombalata">Wawombalata</option>
+                            <option value="Anduonohu">Anduonohu</option>
+                            <option value="Anggoeya">Anggoeya</option>
+                            <option value="Rahandouna">Rahandouna</option>
+                            <option value="Matabubu">Matabubu</option>
+                            <option value="Puuwatu">Puuwatu</option>
+                            <option value="Watulondo">Watulondo</option>
+                            <option value="Abeli Dalam">Abeli Dalam</option>
+                            <option value="Lalodati">Lalodati</option>
+                            <option value="Punggolaka">Punggolaka</option>
+                            <option value="Tobuuha">Tobuuha</option>
+                            <option value="Wua-Wua">Wua-Wua</option>
+                            <option value="Anawai">Anawai</option>
+                            <option value="Bonggoeya">Bonggoeya</option>
+                            <option value="Mataiwoi">Mataiwoi</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Detail Alamat -->
+            <div class="form-section">
+                <div class="section-header">
+                    <div class="section-icon">🏠</div>
+                    <div class="section-title">Detail Alamat</div>
+                </div>
+                <div class="detail-alamat-box">
+                    <h5>Alamat Lengkap</h5>
+                    <p>Contoh : <br> "Jl. Raya Kendari No. 123, RT 05/RW 03, dekat Pasar Sentral Kendari, sebelah Masjid Al-Ikhlas"</p>
+                </div>
+                <div class="form-group">
+                    <textarea placeholder="Masukkan alamat lengkap Anda di sini..."></textarea>
+                </div>
+                <div class="info-box">
+                    <p>⚠️ Pastikan alamat yang Anda masukkan akurat dan lengkap untuk memudahkan proses verifikasi
+                        laporan.</p>
+                </div>
+            </div>
+
+            <!-- Section 4: Lingkungan Budi Visual -->
+            <div class="form-section">
+                <div class="section-header">
+                    <div class="section-icon">📸</div>
+                    <div class="section-title">Lampiiran Bukti Visual</div>
+                </div>
+                <div class="visual-box">
+                    <h5>Upload Foto Lokasi</h5>
+                    <div class="visual-placeholder">
+                        <input type="file">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Deskripsi Kondisi</label>
+                    <textarea placeholder="Jelaskan kondisi air disini..."></textarea>
+                </div>
+                <div class="info-box">
+                    <p>Contoh : <br> Air tampak keruh dan berwarna kekuningan, disertai bau tidak sedap seperti bau besi atau belerang. Terdapat endapan lumpur dan partikel halus yang mengendap di dasar wadah. Suhu air sedikit lebih tinggi dari normal dan pH terukur di bawah 6 (asam). Kondisi ini menunjukkan bahwa air mengalami pencemaran dan tidak layak digunakan untuk keperluan konsumsi maupun kegiatan rumah tangga</p>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="button-container">
+                <a href="proses.html">
+                    <button class="btn-submit">Kirim Laporan</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

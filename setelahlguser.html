@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Report - Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #5B9FD8 0%, #7BB3E0 100%);
+            min-height: 100vh;
+        }
+
+        /* PERBAIKAN: Mencegah body melompat/scroll saat overlay aktif */
+        /* Body akan memiliki overflow: hidden hanya ketika fragment #login-overlay ditargetkan */
+        .overlay:target ~ * {
+            /* Menonaktifkan scroll pada semua sibling setelah overlay yang ditargetkan */
+            overflow: hidden;
+        }
+        
+        .overlay:target {
+            display: flex;
+        }
+
+        /* Header */
+        header {
+            background-color: #1E5A96;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .btn-login {
+            background-color: white;
+            color: #1E5A96;
+        }
+
+        .btn-login:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Kelas yang sama digunakan untuk tombol Logout agar stylingnya sama */
+        .btn-signup {
+            background-color: #FF6B6B;
+            color: white;
+        }
+
+        .btn-signup:hover {
+            background-color: #ff5252;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #5B9FD8 0%, #7BB3E0 100%);
+            padding: 60px 40px;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .hero-text p {
+            font-size: 16px;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .hero-illustration {
+            font-size: 120px;
+            opacity: 0.9;
+        }
+
+        /* Description Box */
+        .description-box {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px auto;
+            max-width: 1000px;
+            color: white;
+            font-size: 15px;
+            line-height: 1.6;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Check Water Section */
+        .check-water {
+            padding: 60px 40px;
+            text-align: center;
+            background: linear-gradient(135deg, #5B9FD8 0%, #7BB3E0 100%);
+        }
+
+        .check-water h2 {
+            font-size: 32px;
+            color: #1E5A96;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .check-water-subtitle {
+            font-size: 24px;
+            color: #2C3E50;
+            margin-bottom: 50px;
+            font-weight: 700;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background-color: #1E5A96;
+            border-radius: 15px;
+            padding: 40px 30px;
+            color: white;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: block; 
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .card-description {
+            font-size: 14px;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        /* Info Section */
+        .info-section {
+            background: linear-gradient(135deg, #5B9FD8 0%, #7BB3E0 100%);
+            padding: 60px 40px;
+            text-align: center;
+            color: #1E5A96;
+        }
+
+        .info-section h3 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1E5A96;
+            color: white;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-wave {
+            position: absolute;
+            top: -50px;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,50 Q300,0 600,50 T1200,50 L1200,120 L0,120 Z" fill="%235B9FD8" opacity="0.3"/></svg>') repeat-x;
+            background-size: 600px 100px;
+        }
+
+        .footer-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-section h4 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .footer-section p {
+            font-size: 14px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            font-size: 14px;
+            margin-bottom: 8px;
+            opacity: 0.9;
+        }
+
+        .footer-section ul li a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            opacity: 0.7;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            margin-top: 30px;
+            padding-top: 20px;
+            text-align: center;
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+        /* --- CSS MURNI UNTUK SIMULASI LOGIN GATE --- */
+        
+        /* Checkbox tersembunyi untuk mengontrol overlay */
+        #login-state {
+            display: none;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none; /* Default tersembunyi */
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            /* Tambahkan scroll bar ke overlay jika kontennya panjang */
+            overflow-y: auto; 
+        }
+
+        .login-prompt {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 90%;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .login-prompt h4 {
+            color: #1E5A96;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .login-prompt p {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Tampilkan Overlay saat tombol Login/Laporan diklik.
+            Kami menggunakan fragment identifier #login-overlay untuk menampilkan overlay */
+        .overlay:target {
+            display: flex;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-text h1 {
+                font-size: 36px;
+            }
+
+            .check-water h2 {
+                font-size: 24px;
+            }
+
+            .check-water-subtitle {
+                font-size: 18px;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px 20px;
+            }
+
+            .nav-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Overlay untuk Prompt Login (Tetap ada, tetapi tidak akan dipicu karena tombol Login/Laporan sudah berubah link) -->
+    <div id="login-overlay" class="overlay">
+        <div class="login-prompt">
+            <h4>Akses Dibatasi</h4>
+            <p>Anda harus masuk (login) untuk membuat laporan. Silakan login atau buat akun.</p>
+            <div class="nav-buttons">
+                <!-- Tautan Login -->
+                <a href="/login.html" class="btn btn-login">Login Sekarang</a>
+                
+                <!-- Tautan Sign Up -->
+                <a href="/masuk.html" class="btn btn-signup">Masuk Sekarang</a>
+                
+                <!-- Tombol "Batal" (MURNI HTML/CSS): Kembali ke fragment identifier kosong (#) 
+                   untuk menutup overlay yang diaktifkan oleh :target. -->
+                <a href="#" class="btn btn-login">Batal</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Header (DISESUAIKAN UNTUK LOGGED-IN STATE) -->
+    <header>
+        <div class="logo">💧 Clean Report</div>
+        <!-- Kontrol Authentikasi: Dashboard dan Logout -->
+        <div class="nav-buttons" id="auth-controls">
+            <!-- Tombol Dashboard (menggantikan Login) -->
+            <a href="/setelahlguser.html" class="btn btn-login">Beranda</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Selamat Datang Kembali!</h1>
+                <p>Halo Pengguna Clean Report! 👋</p>
+                <p>Anda sekarang memiliki akses penuh ke sistem laporan layanan air bersih.</p>
+            </div>
+            <div class="hero-illustration">
+                ✅
+            </div>
+        </div>
+    </section>
+
+    <!-- Description Box -->
+    <div class="description-box">
+        <p> Website ini hadir sebagai jembatan antara masyarakat dan pemerintah dalam mewujudkan pelayanan air bersih yang lebih baik. Sampaikan laporan, aspirasi, maupun kendala Anda terkait layanan air bersih, dan bersama kita wujudkan kualitas hidup yang lebih sehat dan nyaman.</p>
+    </div>
+
+    <!-- Check Water Condition Section -->
+    <section class="check-water">
+        <h2>Check Your Water Concition</h2>
+        <div class="check-water-subtitle">Buat Laporan dan Cek Kualitas Air Anda</div>
+
+        <div class="cards-container">
+            <!-- JENIS AIR (Public - Navigasi Langsung) -->
+            <a href="/jenis.html" class="card">
+                <div class="card-icon">💧</div>
+                <div class="card-title">Jenis-Jenis Air</div>
+                <div class="card-description">Kenali jenis-jenis air di wilayah anda</div>
+            </a>
+
+            <!-- LAPORAN AIR (Authenticated - Navigasi Langsung ke halaman laporan) -->
+            <!-- Tautan diubah dari #login-overlay menjadi /laporan.html -->
+            <a href="/laporan.html" class="card card-laporan">
+                <div class="card-icon">📋</div>
+                <div class="card-title">Buat Laporan Air Baru</div>
+                <div class="card-description">Laporkan keadaan air wilayah anda untuk mendapatkan penanganan lebih lanjut</div>
+            </a>
+
+            <!-- REKOMENDASI TINDAKAN (Public - Navigasi Langsung) -->
+            <a href="/rekomen.html" class="card">
+                <div class="card-icon">⚙️</div>
+                <div class="card-title">Rekomendasi Tindakan</div>
+                <div class="card-description">Dapatkan rekomendasi tindakan untuk menjaga kualitas air wilayah anda</div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Info Section -->
+    <section class="info-section">
+        <h3>LAPORKAN & PANTAU</h3>
+        <h3>KEBERSIHAN AIR DI WILAYAHMU</h3>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-wave"></div>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>💧 Clean Report</h4>
+                <p>Solusi terpadu untuk menjaga dan melaporkan kualitas air bersih di rumah dan wilayah Anda dengan teknologi terkini.</p>
+            </div>
+
+            <div class="footer-section">
+                <h4>Fitur Utama</h4>
+                <ul>
+                    <li><a href="/jenis.html">Jenis-jenis air</a></li>
+                    <!-- Tautan Laporan Air disesuaikan ke halaman sebenarnya -->
+                    <li><a href="/laporan.html">Laporan air</a></li>
+                    <li><a href="/rekomen.html">Rekomendasi Tindakan</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Hubungi Kami</h4>
+                <ul>
+                    <li>Email: info@cleanreport.com</li>
+                    <li>Telepon: +62 XXX XXXX XXXX</li>
+                    <li>Alamat: Jl. Contoh No. 123</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 Clean Report. Semua hak dilindungi. | <a href="#" style="color: white; text-decoration: none;">Kebijakan Privasi</a> | <a href="#" style="color: white; text-decoration: none;">Syarat Layanan</a></p>
+        </div>
+    </footer>
+</body>
+</html>

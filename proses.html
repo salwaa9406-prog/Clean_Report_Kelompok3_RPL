@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status Laporan Saya</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #5B9FD8 0%, #7BB3E0 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header (disalin dari index.html agar konsisten) */
+        header {
+            background-color: #1E5A96;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky; 
+            top: 0;
+            z-index: 10; 
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-beranda {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            background-color: white;
+            color: #1E5A96;
+        }
+
+        .btn-beranda:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Konten Utama */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .title {
+            color: white;
+            font-size: 30px;
+            font-weight: 700;
+            margin-bottom: 50px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Diagram Status */
+        .status-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px; /* Jarak antar elemen */
+            max-width: 900px;
+            width: 100%;
+            margin-bottom: 60px;
+        }
+
+        .status-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            flex: 1; /* Agar membagi ruang secara merata */
+        }
+
+        .status-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #1E5A96;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        /* Style Khusus untuk status AKTIF */
+        .status-item.active .status-circle {
+            background-color: #58C571; /* Hijau cerah untuk aktif */
+            color: white;
+            box-shadow: 0 0 0 8px rgba(88, 197, 113, 0.5); /* Glowing effect */
+        }
+        
+        /* Style Khusus untuk status SELESAI */
+        .status-item.completed .status-circle {
+            background-color: #1E5A96; /* Biru Gelap untuk selesai */
+            color: white;
+        }
+
+        .status-label {
+            margin-top: 15px;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* Garis Penghubung */
+        .status-connector {
+            flex-grow: 1;
+            height: 5px;
+            background-color: rgba(255, 255, 255, 0.6);
+            margin: 0 10px;
+            transition: background-color 0.3s ease;
+        }
+        
+        /* Garis Connector yang sudah dilalui */
+        .status-connector.completed {
+            background-color: #1E5A96;
+        }
+
+        /* Tombol Buat Laporan Baru */
+        .btn-new-report {
+            padding: 15px 35px;
+            background-color: #1E5A96;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.2s;
+            text-decoration: none;
+        }
+
+        .btn-new-report:hover {
+            background-color: #1a4a7a;
+            transform: translateY(-2px);
+        }
+
+        /* Responsif untuk layar kecil (Mobile) */
+        @media (max-width: 600px) {
+            .status-diagram {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .status-item {
+                flex: none;
+                width: 100%;
+                /* Mengatur ulang posisi untuk konektor vertikal */
+                position: relative;
+            }
+            
+            .status-connector {
+                /* Sembunyikan konektor horizontal */
+                display: none; 
+            }
+            
+            /* Konektor Vertikal (Hanya untuk mobile) */
+            .status-item:not(:last-child)::after {
+                content: '';
+                position: absolute;
+                bottom: -20px; /* Posisikan di bawah lingkaran */
+                left: 50%;
+                transform: translateX(-50%);
+                height: 20px;
+                width: 3px;
+                background-color: rgba(255, 255, 255, 0.6);
+            }
+            
+            .status-item.active:not(:last-child)::after,
+            .status-item.completed:not(:last-child)::after {
+                background-color: #1E5A96;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header (Disalin dari index.html) -->
+    <header>
+        <div class="logo">💧 Clean Report</div>
+        <a href="/index.html" class="btn-beranda">Beranda</a>
+    </header>
+
+    <div class="main-content">
+        <div class="title">Status Laporan Saya</div>
+
+        <!-- Diagram Status Laporan -->
+        <div class="status-diagram">
+            
+            <!-- Tahap 1: Belum Ditindak -->
+            <div class="status-item completed">
+                <div class="status-circle">Belum ditindak</div>
+            </div>
+            
+            <!-- Konektor 1 -->
+            <div class="status-connector completed"></div>
+
+            <!-- Tahap 2: Sedang Ditindak (Contoh status aktif) -->
+            <div class="status-item active">
+                <div class="status-circle">Sedang ditindak</div>
+            </div>
+
+            <!-- Konektor 2 -->
+            <div class="status-connector"></div>
+
+            <!-- Tahap 3: Selesai -->
+            <div class="status-item">
+                <div class="status-circle">Selesai</div>
+            </div>
+
+        </div>
+
+        <!-- Tombol Aksi -->
+        <a href="/laporan.html" class="btn-new-report">Buat Laporan Baru</a>
+    </div>
+
+</body>
+</html>

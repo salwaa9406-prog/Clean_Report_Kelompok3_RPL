@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jenis-Jenis Air</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            /* Menggunakan font Inter untuk tampilan modern */
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+        }
+
+        body {
+            /* Latar belakang utama: Gradien biru muda */
+            background: linear-gradient(135deg, #1e5a96 0%, #2b7ab8 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Header - Diperbarui untuk Kontras */
+        header {
+            /* Latar belakang solid biru tua yang kontras */
+            background: #10355A; /* Deep Navy Blue */
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            /* Shadow yang lebih kuat agar terlihat terangkat (sticky) */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .nav-btn {
+            /* Diubah: Latar belakang putih penuh */
+            background: #ffffff; 
+            /* Diubah: Border biru tua untuk kontras */
+            border: 1px solid #1e5a96; 
+            /* Diubah: Warna teks biru tua */
+            color: #10355A; 
+            padding: 6px 12px;
+            /* Bentuk oval/pill shape */
+            border-radius: 9999px; 
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-btn:hover {
+            /* Hover menjadi biru muda agar kontras dengan header biru tua */
+            background: #e0f7fa; 
+            border-color: #ffffff;
+        }
+
+        .profile-icon {
+            font-size: 20px;
+            /* Diubah: Ikon berwarna biru tua */
+            color: #10355A; 
+            padding: 5px 8px;
+            /* Bentuk oval/pill shape */
+            border-radius: 9999px; 
+            /* Diubah: Latar belakang putih penuh */
+            background: #ffffff; 
+            cursor: pointer;
+            transition: background 0.3s ease;
+            /* Tambahkan border agar terlihat lebih jelas */
+            border: 1px solid #1e5a96;
+        }
+
+        .profile-icon:hover {
+            background: #e0f7fa;
+        }
+
+        /* Hapus kelas CSS yang tidak digunakan di HTML:
+        .header-left, .back-btn, .header-title, .header-right, .settings-btn
+        */
+
+        /* Main Container */
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: calc(100vh - 60px);
+        }
+
+        /* Title Section */
+        .title-section {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .title-section h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .title-section p {
+            font-size: 14px;
+            font-weight: 400;
+            opacity: 0.95;
+        }
+
+        /* Content Cards */
+        .content-section {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            /* Placeholder for image error */
+            background-color: #f0f0f0;
+        }
+
+        .card-content {
+            padding: 25px;
+        }
+
+        .card-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1e5a96;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .card-text {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #555;
+            text-align: justify;
+        }
+
+        /* Dark Card Variant */
+        .card-dark {
+            background: linear-gradient(135deg, #2b5a7f 0%, #1e4a6f 100%);
+            color: white;
+        }
+
+        .card-dark .card-title {
+            color: #ffffff;
+            text-align: left;
+        }
+
+        .card-dark .card-text {
+            color: rgba(255, 255, 255, 0.9);
+            text-align: left;
+        }
+
+        /* Responsive Design */
+        @media (min-width: 768px) {
+            .container {
+                padding: 30px;
+            }
+
+            .content-section {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+
+            .title-section h1 {
+                font-size: 36px;
+            }
+
+            .card-image {
+                height: 300px;
+            }
+
+            .card-content {
+                padding: 30px;
+            }
+
+            .card-title {
+                font-size: 24px;
+            }
+
+            .card-text {
+                font-size: 15px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 1200px;
+                padding: 40px;
+            }
+
+            .title-section h1 {
+                font-size: 42px;
+            }
+
+            .card-image {
+                height: 350px;
+            }
+
+            .card-content {
+                padding: 35px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .title-section {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .card {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+     <header>
+        <!-- Logo sudah menggunakan class .logo, jadi tinggal styling -->
+         <div class="logo">💧 Clean Report</div>
+         <!-- Nav buttons sudah menggunakan class .nav-buttons -->
+         <div class="nav-buttons">
+            <a href="/index2.html">
+                 <button class="nav-btn">Beranda</button>
+            </a>
+         </div>
+     </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Title Section -->
+        <div class="title-section">
+            <h1>Jenis-Jenis Air</h1>
+            <p>Ayo tahu keadilan air mu?</p>
+        </div>
+
+        <!-- Content Cards -->
+        <div class="content-section">
+            <!-- Air Bersih Card -->
+            <div class="card">
+                <img src="https://i.ibb.co.com/zt0Z2xw/Whats-App-Image-2025-10-24-at-09-01-58.jpg" onerror="this.onerror=null; this.src='https://placehold.co/500x300/e0f7fa/000000?text=Air+Bersih+Placeholder';" alt="Air Bersih" class="card-image">
+                <div class="card-content">
+                    <h2 class="card-title">Air Bersih</h2>
+                    <p class="card-text">
+                        Air bersih adalah air yang memenuhi standar kualitas tertentu dan aman untuk dikonsumsi manusia. Air bersih harus bebas dari kontaminan berbahaya, bakteri patogen, dan zat kimia beracun. Sumber air bersih dapat berasal dari mata air alami, sumur dalam, atau hasil pengolahan air yang telah melalui proses filtrasi dan desinfeksi. Ketersediaan air bersih merupakan hak dasar manusia dan sangat penting untuk kesehatan, kebersihan, dan kehidupan sehari-hari. Pemerintah dan organisasi internasional terus berupaya meningkatkan akses air bersih bagi seluruh penduduk dunia.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Air Tercemar Card -->
+            <div class="card card-dark">
+                <img src="https://i.ibb.co.com/bMhTD0sS/Whats-App-Image-2025-10-24-at-09-02-16.jpg" onerror="this.onerror=null; this.src='https://placehold.co/500x300/607d8b/ffffff?text=Air+Tercemar+Placeholder';" alt="Air Tercemar" class="card-image">
+                <div class="card-content">
+                    <h2 class="card-title">Air Tercemar</h2>
+                    <p class="card-text">
+                        Air tercemar adalah air yang telah terkontaminasi oleh zat-zat berbahaya seperti limbah industri, pestisida, logam berat, dan mikroorganisme patogen. Pencemaran air dapat terjadi melalui berbagai sumber termasuk pembuangan limbah pabrik, pertanian intensif, dan aktivitas manusia lainnya. Air tercemar tidak aman untuk dikonsumsi dan dapat menyebabkan berbagai penyakit serius bagi manusia dan makhluk hidup lainnya. Pencemaran air juga berdampak negatif terhadap ekosistem aquatik dan keseimbangan lingkungan. Diperlukan upaya konservasi dan pengelolaan sumber daya air yang berkelanjutan untuk mencegah dan mengatasi pencemaran air.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
